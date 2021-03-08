@@ -32,6 +32,7 @@ class Att_Dataset(Dataset):
     def __getitem__(self, idx):
         img_path = self.img_path + self.img_dir + self.input_filenames.iloc[idx, 0]
         image = read_image(img_path)
+        temp = self.input_filenames.iloc[idx, 0]
 
         # Read in the attribute labels for the current input image
         attributes = self.img_labels.iloc[idx,]

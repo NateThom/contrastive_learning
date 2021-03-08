@@ -19,8 +19,8 @@ def get_args():
                         help='input_images')
 
     parser.add_argument('--attr_label_path',
-                        default='/home/nthom/Documents/datasets/UNR_Facial_Attribute_Parsing_Dataset/list_attr_celeba_attparsenet.csv',
-                        # default='/home/nthom/Documents/datasets/UNR_Facial_Attribute_Parsing_Dataset/list_attr_celeba_attparsenet_adjusted.csv',
+                        # default='/home/nthom/Documents/datasets/UNR_Facial_Attribute_Parsing_Dataset/list_attr_celeba_attparsenet.csv',
+                        default='/home/nthom/Documents/datasets/UNR_Facial_Attribute_Parsing_Dataset/list_attr_celeba_hair.csv',
                         # default='/home/nthom/Documents/datasets/lfwa/lfwa_labels_full_paths.csv',
                         # default='/home/nthom/Documents/datasets/UMD-AED/Files_attparsenet/list_attr_umdaed_reordered.csv',
                         help='Path to mapping between input images and binary attribute labels [/home/user/Documents/list_attr_celeba_attparsenet.csv]')
@@ -111,8 +111,8 @@ def get_args():
                         help='Evaluate the model on the test set')
 
     parser.add_argument('--pretrain',
-                        default=False,
-                        # default=True,
+                        # default=False,
+                        default=True,
                         help='Download pretrained resnet weights')
 
     parser.add_argument('--n_labels',
@@ -120,7 +120,7 @@ def get_args():
                         help='Number of classes in task')
 
     parser.add_argument('--attr_to_use',
-                        default=['Bald', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
+                        default=['Other', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
                         help='List of attributes to predict')
 
     parser.add_argument('--save_feature_maps',
@@ -144,11 +144,11 @@ def get_args():
                         help='Shuffle the order of training samples. Validation and Testing sets will not be shuffled [True]')
 
     parser.add_argument('--random_seed',
-                        default=64,
+                        default=2,
                         help='Seed for random number generators [64]')
 
     parser.add_argument('--batch_size',
-                        default=512,
+                        default=5,
                         help='Batch size for images [32]')
 
     parser.add_argument('--lr',

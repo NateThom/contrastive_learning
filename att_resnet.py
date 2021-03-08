@@ -31,6 +31,12 @@ class Att_Resnet(pl.LightningModule):
         self.test_recall = pl.metrics.Recall(num_classes=hparams.n_labels)
         self.test_f1 = pl.metrics.F1(num_classes=hparams.n_labels)
 
+        self.tp_counts = 0
+        self.tn_counts = 0
+        self.fp_counts = 0
+        self.fn_counts = 0
+
+        # self.resnet = resnet18(pretrained=hparams.pretrain, progress=True)
         self.resnet = resnet50(pretrained=hparams.pretrain, progress=True)
         self.fc_in_feats = self.resnet.fc.in_features
 
@@ -103,6 +109,15 @@ class Att_Resnet(pl.LightningModule):
 
         attribute_preds = self(inputs)
         attribute_preds = torch.sigmoid(attribute_preds)
+
+        # self.tp_counts = (torch.where(attribute_preds + attribute_labels > 1.5, 1, 0)).sum(dim=0)
+        # self.fp_counts = (torch.where(attribute_preds + attribute_labels == 1, 1, 0)).sum(dim=0)
+        # self.tn_counts = (torch.where(attribute_preds + attribute_labels == 0, 1, 0)).sum(dim=0)
+        # self.fn_counts = (torch.where(attribute_preds - attribute_labels == 0, 1, 0)).sum(dim=0)
+        # print(attribute_preds.int())
+        # print(attribute_labels)
+        # print(self.tp_counts)
+
 
         loss = F.binary_cross_entropy_with_logits(attribute_preds, attribute_labels.float(), reduction='mean')
 
