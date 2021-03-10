@@ -4,30 +4,11 @@ import utils
 import att_resnet
 import dataset
 import random_resized_crop
-
-import numpy as np
-import pandas as pd
 import pytorch_lightning as pl
-import matplotlib.pyplot as plt
-import torch.nn.functional as F
-import torchvision.transforms.functional as TF
-import torchvision.models as models
 from pytorch_lightning.loggers import WandbLogger
-
-
-from torch import nn
-from torch import optim
-from torch.utils.data import Dataset
-from torch.utils.data import Subset
 from torch.utils.data import DataLoader
-from torch.utils.data import random_split
 from torchvision import transforms
 from pytorch_lightning.callbacks import ModelCheckpoint
-
-# Base Model, Dataset, Batch Size, Learning Rate
-# wandb.init(project="contrastive_learning", entity="natethom")
-
-activation = None
 
 if __name__=="__main__":
     args = utils.get_args()
@@ -76,7 +57,7 @@ if __name__=="__main__":
     )
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=args.shuffle, num_workers=10)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=6)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=1)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=12)
 
     if args.save == True:
@@ -93,7 +74,7 @@ if __name__=="__main__":
             precision=16,
             callbacks=[checkpoint_callback],
             accelerator='ddp',
-            gpus=-1,
+            gpus=1,
             num_nodes=1,
             # limit_train_batches=0.01,
             # limit_val_batches=0.01,

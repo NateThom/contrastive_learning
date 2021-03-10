@@ -1,5 +1,4 @@
 import torch
-
 import torchvision.transforms.functional as TF
 
 class MyRandomResizedCrop(object):
@@ -32,7 +31,9 @@ class MyRandomResizedCrop(object):
             left = torch.randint(0, image_w - new_image_w, (1,))
 
             image = TF.resized_crop(image, top[0], left[0], new_image_h, new_image_w, self.output_size)
+
         except:
             image = TF.resize(image, self.output_size)
+
 
         return {'image': image, 'attributes': sample['label']}

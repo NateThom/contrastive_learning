@@ -1,5 +1,4 @@
 import argparse
-import random
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -12,8 +11,8 @@ def get_args():
                         help='Path to input data directory [/home/user/Documents/input_images/]')
 
     parser.add_argument('--image_dir',
-                        # default='resized_images_178x218/',
-                        default='img_celeba/',
+                        default='resized_images_178x218/',
+                        # default='img_celeba/',
                         # default='resized_aligned_images_178x218',
                         # default='resized_segment1',
                         # default='lfw',
@@ -49,8 +48,9 @@ def get_args():
                         default='/home/nthom/Documents/contrastive_learning/checkpoints',
                         help='Dir for saving models [./saved_models/]')
 
+    # Base Model, Dataset, labels, data augs, Learning Rate
     parser.add_argument('--save_name',
-                        default='0.001_resnet50_hair_other_img_celeba_pretrain_randomResizedCrop',
+                        default='resnet50Pretrained_resizedImages178x218_hair_randomResizedCrop_0.01',
                         help='Dir for saving models [./saved_models/]')
 
     parser.add_argument('--train_epochs',
@@ -61,7 +61,7 @@ def get_args():
                         #lfwa and umd
                         # default=0,
                         #celeba
-                        default=160000,
+                        default=162599,
                         help='Number of samples in training set [162770]')
 
     parser.add_argument('--val_size',
@@ -144,11 +144,11 @@ def get_args():
                         help='Seed for random number generators [64]')
 
     parser.add_argument('--batch_size',
-                        default=256,
+                        default=10,
                         help='Batch size for images [32]')
 
     parser.add_argument('--lr',
-                        default=0.001,
+                        default=0.01,
                         help='Learning rate [0.001]')
 
     parser.add_argument('--patience',

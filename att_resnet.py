@@ -1,11 +1,9 @@
 import torch
 import time
-
 import pytorch_lightning as pl
 import torch.nn.functional as F
 import torch.optim as optim
 import pandas as pd
-
 from torch import nn
 from torchvision.models import resnet18, resnet50
 
