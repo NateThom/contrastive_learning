@@ -1,4 +1,5 @@
 import argparse
+import random
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -11,9 +12,10 @@ def get_args():
                         help='Path to input data directory [/home/user/Documents/input_images/]')
 
     parser.add_argument('--image_dir',
-                        default='resized_images_178x218/',
+                        # default='resized_images_178x218/',
+                        default='img_celeba/',
                         # default='resized_aligned_images_178x218',
-                        # default='resized_segme*nt1',
+                        # default='resized_segment1',
                         # default='lfw',
                         # default='croppedImages',
                         help='input_images')
@@ -24,18 +26,6 @@ def get_args():
                         # default='/home/nthom/Documents/datasets/lfwa/lfwa_labels_full_paths.csv',
                         # default='/home/nthom/Documents/datasets/UMD-AED/Files_attparsenet/list_attr_umdaed_reordered.csv',
                         help='Path to mapping between input images and binary attribute labels [/home/user/Documents/list_attr_celeba_attparsenet.csv]')
-
-    parser.add_argument('--metrics_output_path',
-                        default='/home/nthom/Documents/attparsenet_data/output_metrics/',
-                        help='File for saving metrics [/home/user/Documents/metrics/metric.txt]')
-
-    parser.add_argument('--metrics_csv_output_path',
-                        default='/home/nthom/Documents/attparsenet_data/csv_output_metrics/',
-                        help='File for saving metrics in csv format [/home/user/Documents/metrics/metric.csv]')
-
-    parser.add_argument('--model',
-                        default="attparsenet",
-                        help='Designates the model to be initialized [attparsenet]')
 
     parser.add_argument('--load',
                         default=False,
@@ -59,8 +49,12 @@ def get_args():
                         default='/home/nthom/Documents/contrastive_learning/checkpoints',
                         help='Dir for saving models [./saved_models/]')
 
+    parser.add_argument('--save_name',
+                        default='0.001_resnet50_hair_other_img_celeba_pretrain_randomResizedCrop',
+                        help='Dir for saving models [./saved_models/]')
+
     parser.add_argument('--train_epochs',
-                        default=100,
+                        default=25,
                         help='Number of training epochs [22]')
 
     parser.add_argument('--train_size',
@@ -120,44 +114,9 @@ def get_args():
                         help='Number of classes in task')
 
     parser.add_argument('--attr_to_use',
+                        # default=['Bald', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
                         default=['Other', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
                         help='List of attributes to predict')
-
-    parser.add_argument('--save_feature_maps',
-                        default=False,
-                        # default=True,
-                        help='Save all feature maps for data in either the test or val set')
-
-    parser.add_argument('--show_batch',
-                        default=False,
-                        # default=True,
-                        help='Show the batch input images and masks for debugging')
-
-    parser.add_argument('--repair_labels',
-                        default=False,
-                        # default=True,
-                        help='Show the batch input images and masks for debugging')
-
-    parser.add_argument('--shuffle',
-                        # default=False,
-                        default=True,
-                        help='Shuffle the order of training samples. Validation and Testing sets will not be shuffled [True]')
-
-    parser.add_argument('--random_seed',
-                        default=2,
-                        help='Seed for random number generators [64]')
-
-    parser.add_argument('--batch_size',
-                        default=5,
-                        help='Batch size for images [32]')
-
-    parser.add_argument('--lr',
-                        default=0.01,
-                        help='Learning rate [0.001]')
-
-    parser.add_argument('--patience',
-                        default=5,
-                        help='Learning Rate Scheduler Patience [5]')
 
     parser.add_argument('--attr_list',
                         default=['5_o_Clock_Shadow', 'Arched_Eyebrows', 'Attractive',
@@ -170,4 +129,38 @@ def get_args():
                                 'Wearing_Lipstick', 'Wearing_Necklace', 'Wearing_Necktie', 'Young'],
                         help='List of all 40 attributes')
 
+    parser.add_argument('--show_batch',
+                        default=False,
+                        # default=True,
+                        help='Show the batch input images and masks for debugging')
+
+    parser.add_argument('--shuffle',
+                        # default=False,
+                        default=True,
+                        help='Shuffle the order of training samples. Validation and Testing sets will not be shuffled [True]')
+
+    parser.add_argument('--random_seed',
+                        default=83,
+                        help='Seed for random number generators [64]')
+
+    parser.add_argument('--batch_size',
+                        default=256,
+                        help='Batch size for images [32]')
+
+    parser.add_argument('--lr',
+                        default=0.001,
+                        help='Learning rate [0.001]')
+
+    parser.add_argument('--patience',
+                        default=5,
+                        help='Learning Rate Scheduler Patience [5]')
+
     return parser.parse_args()
+
+    # parser.add_argument('--model',
+    #                     default="attparsenet",
+    #                     help='Designates the model to be initialized [attparsenet]')
+    # parser.add_argument('--save_feature_maps',
+    #                     default=False,
+    #                     # default=True,
+    #                     help='Save all feature maps for data in either the test or val set')

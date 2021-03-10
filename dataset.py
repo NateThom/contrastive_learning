@@ -18,7 +18,7 @@ class Att_Dataset(Dataset):
 
         # Read the binary attribute labels from the specified file
         self.attr_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=attributes_to_use)
-        self.img_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=[n for n in range(1, 6)])
+        self.img_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=[n for n in range(1, 6)]);
 
         # Get the paths to each of the input images
         self.input_filenames = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=[0])

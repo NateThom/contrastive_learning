@@ -20,16 +20,19 @@ class MyRandomResizedCrop(object):
     def __call__(self, sample):
         image = sample["image"]
 
-        # Get the height and width of the image in sample
-        image_h, image_w = image.shape[1:3]
+        try:
+            # Get the height and width of the image in sample
+            image_h, image_w = image.shape[1:3]
 
-        # Copy the height and width from output size
-        new_image_h, new_image_w = self.output_size
+            # Copy the height and width from output size
+            new_image_h, new_image_w = self.output_size
 
-        # Randomly select a point to crop the top and left edge of the image to
-        top = torch.randint(0, image_h - new_image_h, (1,))
-        left = torch.randint(0, image_w - new_image_w, (1,))
+            # Randomly select a point to crop the top and left edge of the image to
+            top = torch.randint(0, image_h - new_image_h, (1,))
+            left = torch.randint(0, image_w - new_image_w, (1,))
 
-        image = TF.resized_crop(image, top[0], left[0], new_image_h, new_image_w, self.output_size)
+            image = TF.resized_crop(image, top[0], left[0], new_image_h, new_image_w, self.output_size)
+        except:
+            image = TF.resize(image, self.output_size)
 
         return {'image': image, 'attributes': sample['label']}

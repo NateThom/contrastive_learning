@@ -26,7 +26,6 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 
 # Base Model, Dataset, Batch Size, Learning Rate
 # wandb.init(project="contrastive_learning", entity="natethom")
-wandb_logger = WandbLogger(name='resnet50_hair_other_pretrain_randomResizedCrop', project='contrastive_learning', entity='unr-mpl')
 
 activation = None
 
@@ -34,6 +33,8 @@ if __name__=="__main__":
     args = utils.get_args()
 
     pl.seed_everything(args.random_seed)
+
+    wandb_logger = WandbLogger(name=args.save_name, project='contrastive_learning', entity='unr-mpl')
 
     # Initialize the model
     if args.load == True:
@@ -82,7 +83,7 @@ if __name__=="__main__":
         checkpoint_callback = ModelCheckpoint(
             monitor='Validation Loss',
             dirpath=args.save_path,
-            filename='{epoch:02d}-{Validation Loss:.05f}-resnet50_hair_other_pretrain_randomResizedCrop',
+            filename='{epoch:02d}-{Validation Loss:.05f}-' + args.save_name,
             save_top_k=25,
             mode='min',
         )
@@ -91,11 +92,11 @@ if __name__=="__main__":
             logger=wandb_logger,
             precision=16,
             callbacks=[checkpoint_callback],
-            # accelerator='ddp',
+            accelerator='ddp',
             gpus=-1,
             num_nodes=1,
-            # limit_train_batches=0.5,
-            # limit_val_batches=0.5,
+            # limit_train_batches=0.01,
+            # limit_val_batches=0.01,
             max_epochs=args.train_epochs
         )
     else:
