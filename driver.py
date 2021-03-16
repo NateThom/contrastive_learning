@@ -1,9 +1,9 @@
-import torch
-import wandb
 import utils
 import att_resnet
 import dataset
 import random_resized_crop
+import random_blur
+import random_hflip
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from torch.utils.data import DataLoader
@@ -30,6 +30,7 @@ if __name__=="__main__":
         args.attr_label_path,
         args.attr_to_use,
         transform=transforms.Compose(
+            # [random_resized_crop.MyRandomResizedCrop((178, 218)), random_blur.MyRandomBlur(15), random_hflip.MyRandomHFlip()]
             [random_resized_crop.MyRandomResizedCrop((178, 218))]
         )
     )
@@ -56,8 +57,8 @@ if __name__=="__main__":
         )
     )
 
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=args.shuffle, num_workers=10)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=1)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=args.shuffle, num_workers=8)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=12)
 
     if args.save == True:
@@ -74,10 +75,10 @@ if __name__=="__main__":
             precision=16,
             callbacks=[checkpoint_callback],
             accelerator='ddp',
-            gpus=1,
+            gpus=-1,
             num_nodes=1,
-            # limit_train_batches=0.01,
-            # limit_val_batches=0.01,
+            # limit_train_batches=0.3,
+            # limit_val_batches=0.3,
             max_epochs=args.train_epochs
         )
     else:

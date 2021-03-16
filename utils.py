@@ -32,11 +32,11 @@ def get_args():
                         help='True for loading a pretrained model, False otherwise [0]')
 
     parser.add_argument('--load_path',
-                        default='/home/nthom/Documents/AttParseNet/checkpoints/',
+                        default='/home/nthom/Documents/contrastive_learning/checkpoints/',
                         help='File path for the model to load [/home/user/Document/models/]')
 
     parser.add_argument('--load_file',
-                        default='baseline_mult_hflip/Baseline_Aligned_mult_hflip_40_0.01_Mworks06-epoch=17-Validation Loss=0.21172.ckpt',
+                        default='epoch=24-Validation Loss=0.24166-resnet18Pretrain_resizedImages178x218_hair_randomResizedCrop_blur15_hFlip_0.01.ckpt',
                         help='File name for the model to load [/model_to_load]')
 
     parser.add_argument('--save',
@@ -50,7 +50,7 @@ def get_args():
 
     # Base Model, Dataset, labels, data augs, Learning Rate
     parser.add_argument('--save_name',
-                        default='resnet50Pretrained_resizedImages178x218_hair_randomResizedCrop_0.01',
+                        default='resnet152Pretrain_resizedImages178x218_hair_randomResizedCrop_0.01',
                         help='Dir for saving models [./saved_models/]')
 
     parser.add_argument('--train_epochs',
@@ -61,14 +61,14 @@ def get_args():
                         #lfwa and umd
                         # default=0,
                         #celeba
-                        default=162599,
+                        default=162771,
                         help='Number of samples in training set [162770]')
 
     parser.add_argument('--val_size',
                         #lfwa and umd
                         # default=0,
                         #celaba
-                        default=20000,
+                        default=19867,
                         help='Number of samples in validation set [19867]')
 
     parser.add_argument('--test_size',
@@ -77,7 +77,7 @@ def get_args():
                         # umd
                         # default=2808,
                         #celeba
-                        default=20000,
+                        default=19961,
                         help='Number of samples in test set [19963]')
 
     parser.add_argument('--all_size',
@@ -86,7 +86,7 @@ def get_args():
                         # umd
                         # default=2808,
                         #celeba
-                        default=200000,
+                        default=202599,
                         help='Total Number of samples in the dataset [202600]')
 
     parser.add_argument('--train',
@@ -111,11 +111,20 @@ def get_args():
 
     parser.add_argument('--n_labels',
                         default=5,
+                        # default=40,
                         help='Number of classes in task')
 
     parser.add_argument('--attr_to_use',
                         # default=['Bald', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
                         default=['Other', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair'],
+                        # default=['5_o_Clock_Shadow', 'Arched_Eyebrows', 'Attractive',
+                        #          'Bags_Under_Eyes', 'Bald', 'Bangs', 'Big_Lips', 'Big_Nose', 'Black_Hair',
+                        #          'Blond_Hair', 'Blurry', 'Brown_Hair', 'Bushy_Eyebrows', 'Chubby', 'Double_Chin',
+                        #          'Eyeglasses', 'Goatee', 'Gray_Hair', 'Heavy_Makeup', 'High_Cheekbones', 'Male',
+                        #          'Mouth_Slightly_Open', 'Mustache', 'Narrow_Eyes', 'No_Beard', 'Oval_Face',
+                        #          'Pale_Skin', 'Pointy_Nose', 'Receding_Hairline', 'Rosy_Cheeks', 'Sideburns',
+                        #          'Smiling', 'Straight_Hair', 'Wavy_Hair', 'Wearing_Earrings', 'Wearing_Hat',
+                        #          'Wearing_Lipstick', 'Wearing_Necklace', 'Wearing_Necktie', 'Young'],
                         help='List of attributes to predict')
 
     parser.add_argument('--attr_list',
@@ -124,7 +133,7 @@ def get_args():
                                 'Blond_Hair', 'Blurry', 'Brown_Hair', 'Bushy_Eyebrows', 'Chubby', 'Double_Chin',
                                 'Eyeglasses', 'Goatee', 'Gray_Hair', 'Heavy_Makeup', 'High_Cheekbones', 'Male',
                                 'Mouth_Slightly_Open', 'Mustache', 'Narrow_Eyes', 'No_Beard', 'Oval_Face',
-                                'Pale_Skin', 'Pointy_Nose', 'Receding_Hairline', 'Rosy_Cheeks', 'Side_Burns',
+                                'Pale_Skin', 'Pointy_Nose', 'Receding_Hairline', 'Rosy_Cheeks', 'Sideburns',
                                 'Smiling', 'Straight_Hair', 'Wavy_Hair', 'Wearing_Earrings', 'Wearing_Hat',
                                 'Wearing_Lipstick', 'Wearing_Necklace', 'Wearing_Necktie', 'Young'],
                         help='List of all 40 attributes')
@@ -140,11 +149,11 @@ def get_args():
                         help='Shuffle the order of training samples. Validation and Testing sets will not be shuffled [True]')
 
     parser.add_argument('--random_seed',
-                        default=83,
+                        default=256,
                         help='Seed for random number generators [64]')
 
     parser.add_argument('--batch_size',
-                        default=10,
+                        default=64,
                         help='Batch size for images [32]')
 
     parser.add_argument('--lr',

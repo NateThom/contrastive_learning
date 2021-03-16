@@ -1,8 +1,8 @@
 import torch
-import cv2
 import pandas as pd
 from torch.utils.data import Dataset
 import torchvision.transforms.functional as TF
+import torchvision
 
 class Att_Dataset(Dataset):
     def __init__(self, fold, image_path, image_dir, attr_label_path, attributes_to_use, transform=None):
@@ -17,8 +17,7 @@ class Att_Dataset(Dataset):
         self.img_dir = image_dir
 
         # Read the binary attribute labels from the specified file
-        self.attr_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=attributes_to_use)
-        self.img_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=[n for n in range(1, 6)]);
+        self.img_labels = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=attributes_to_use)
 
         # Get the paths to each of the input images
         self.input_filenames = pd.read_csv(attr_label_path, sep=',', skiprows=0, usecols=[0])
@@ -31,18 +30,22 @@ class Att_Dataset(Dataset):
 
     def __getitem__(self, idx):
         img_path = self.img_path + self.img_dir + self.input_filenames.iloc[idx, 0]
-        # image = read_image(img_path)
-        image = cv2.imread(img_path)
-        image = image.astype('uint8')
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = TF.to_tensor(image)
+        image = torchvision.io.read_image(img_path)
+        image = TF.convert_image_dtype(image, torch.float)
+
+        # image = cv2.imread(img_path)
+        # image = image.astype('uint8')
+        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # image = TF.to_tensor(image)
+
+        # image = Image.open(img_path)
 
         # Read in the attribute labels for the current input image
         attributes = self.img_labels.iloc[idx,]
         attributes = torch.tensor(attributes)
-        attributes = torch.gt(attributes, 0)
+        attributes = torch.gt(attributes, 0).float()
 
-        sample = {"image": image, "label": attributes.int()}
+        sample = {"image": image, "label": attributes}
 
         if self.transform:
             sample = self.transform(sample)
