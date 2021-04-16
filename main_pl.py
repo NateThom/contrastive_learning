@@ -159,7 +159,7 @@ if __name__ == "__main__":
         elif args.dataset == "CelebA":
             train_dataset = celeba_dataset.Att_Dataset(
                 args,
-                fold="training",
+                fold="all",
                 transform=TransformsSimCLR(size=(args.image_size_h, args.image_size_w)),
             )
 
@@ -204,7 +204,8 @@ if __name__ == "__main__":
         checkpoint_callback = ModelCheckpoint(
             monitor='Training Loss',
             dirpath=args.model_path,
-            filename='{epoch:02d}-{Training Loss:.05f}-' + args.save_name,
+            filename='{epoch:02d}-{Training Loss:.05f}-' + f"{args.h_dim}" + f"{args.projection_dim}" +
+                     f"{args.temperature}" + f"{args.learning_rate}",
             save_top_k=5,
             mode='min',
         )
@@ -217,7 +218,7 @@ if __name__ == "__main__":
             plugins=DDPPlugin(find_unused_parameters=False),
             gpus=args.gpus,
             num_nodes=1,
-            # limit_train_batches=0.3,
+            # limit_train_batches=0.01,
             # limit_val_batches=0.3,
             max_epochs=args.epochs
         )

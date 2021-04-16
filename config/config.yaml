@@ -19,7 +19,7 @@ pretrain: True
 train: True
 val_only: False
 test: False
-save: False
+save: True
 reload: False
 
 # model options

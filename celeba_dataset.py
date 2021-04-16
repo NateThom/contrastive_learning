@@ -13,9 +13,12 @@ class Att_Dataset(Dataset):
         elif fold == "validation":
             lower_bound = args.train_size
             upper_bound = args.train_size + args.val_size
-        else:
+        elif fold == "test":
             lower_bound = args.train_size + args.val_size
             upper_bound = args.train_size + args.val_size + args.test_size
+        else:
+            lower_bound = 0
+            upper_bound = args.all_size
 
         self.train = args.train
         self.test = args.test
