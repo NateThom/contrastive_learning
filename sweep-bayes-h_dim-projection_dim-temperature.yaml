@@ -5,7 +5,7 @@ program: main_pl.py
 method: bayes
 metric:
   goal: minimize
-  name: Training Loss_epoch
+  name: Training Loss
 parameters:
   h_dim:
     values: [512, 1024, 2048, 4096]
@@ -13,6 +13,8 @@ parameters:
     values: [64, 128, 256, 512, 1024]
   temperature:
     values: [0.05, 0.1, 0.3, 0.5, 0.7]
+  learning_rate:
+    values: [3e-2, 3e-3, 3e-4, 3e-5]
   epochs:
     value: 27
 early_terminate:
