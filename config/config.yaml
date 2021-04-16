@@ -9,7 +9,7 @@ dataset_dir: "./datasets"
 # train options
 seed: 44 # sacred handles automatic seeding when passed in the config
 batch_size: 64
-learning_rate: 3e-4
+learning_rate: 0.0003
 image_size_h: 178
 image_size_w: 218
 start_epoch: 0
