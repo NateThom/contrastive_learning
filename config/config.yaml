@@ -1,0 +1,69 @@
+# distributed training
+nodes: 1
+gpus: 1 # I recommend always assigning 1 GPU to 1 node
+nr: 0 # machine nr. in node (0 -- nodes - 1)
+dataparallel: 0 # Use DataParallel instead of DistributedDataParallel
+workers: 16
+dataset_dir: "./datasets"
+
+# train options
+seed: 44 # sacred handles automatic seeding when passed in the config
+batch_size: 64
+image_size_h: 178
+image_size_w: 218
+start_epoch: 0
+epochs: 25
+dataset: "CelebA"
+pretrain: True
+train: True
+val_only: False
+test: False
+save: False
+reload: False
+
+# model options
+#resnet: "resnet18"
+resnet: "resnet50"
+h_dim: 1024
+projection_dim: 128 # "[...] to project the representation to a 128-dimensional latent space"
+
+# loss options
+optimizer: "Adam" # or LARS (experimental)
+weight_decay: 1.0e-6 # "optimized using LARS [...] and weight decay of 10−6"
+temperature: 0.1 # see appendix B.7.: Optimal temperature under different batch sizes
+
+# test output options
+csv_path: "/home/nthom/Documents/simclr/outputs/"
+
+# save options
+# method_data_transformations_lr_temperature_patience_projectionDimension_hDimension
+save_name: "resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024"
+
+# reload options
+model_path: "/home/nthom/Documents/simclr/checkpoints/resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024/"
+#model_file: "epoch=77-Training Loss=1.25032-resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024.ckpt"
+model_file: "test.ckpt"
+
+# data options
+show_batch: False
+image_path: "/home/nthom/Documents/datasets/CelebA/Img/"
+image_dir: "resized_images_178x218/"
+attr_label_path: "/home/nthom/Documents/datasets/UNR_Facial_Attribute_Parsing_Dataset/list_attr_celeba_hair.csv"
+train_size: 162771
+val_size: 19867
+test_size: 19961
+all_size: 202599
+n_classes: 5
+attr_to_use: ['Other', 'Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Gray_Hair']
+attr_list: [ '5_o_Clock_Shadow', 'Arched_Eyebrows', 'Attractive',
+             'Bags_Under_Eyes', 'Bald', 'Bangs', 'Big_Lips', 'Big_Nose', 'Black_Hair',
+             'Blond_Hair', 'Blurry', 'Brown_Hair', 'Bushy_Eyebrows', 'Chubby', 'Double_Chin',
+             'Eyeglasses', 'Goatee', 'Gray_Hair', 'Heavy_Makeup', 'High_Cheekbones', 'Male',
+             'Mouth_Slightly_Open', 'Mustache', 'Narrow_Eyes', 'No_Beard', 'Oval_Face',
+             'Pale_Skin', 'Pointy_Nose', 'Receding_Hairline', 'Rosy_Cheeks', 'Sideburns',
+             'Smiling', 'Straight_Hair', 'Wavy_Hair', 'Wearing_Earrings', 'Wearing_Hat',
+             'Wearing_Lipstick', 'Wearing_Necklace', 'Wearing_Necktie', 'Young' ]
+
+# logistic regression options
+logistic_batch_size: 256
+logistic_epochs: 500
