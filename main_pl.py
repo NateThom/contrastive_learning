@@ -159,7 +159,7 @@ if __name__ == "__main__":
         elif args.dataset == "CelebA":
             train_dataset = celeba_dataset.Att_Dataset(
                 args,
-                fold="all",
+                fold="not test",
                 transform=TransformsSimCLR(size=(args.image_size_h, args.image_size_w)),
             )
 
