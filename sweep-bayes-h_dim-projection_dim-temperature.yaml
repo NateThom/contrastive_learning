@@ -17,6 +17,3 @@ parameters:
     values: [0.03, 0.003, 0.0003, 0.00003]
   epochs:
     value: 10
-early_terminate:
-  type: hyperband
-  max_iter: 10

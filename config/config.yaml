@@ -7,13 +7,13 @@ workers: 12
 dataset_dir: "./datasets"
 
 # train options
-seed: 44 # sacred handles automatic seeding when passed in the config
+seed: 128 # sacred handles automatic seeding when passed in the config
 batch_size: 64
 learning_rate: 0.0003
 image_size_h: 178
 image_size_w: 218
 start_epoch: 0
-epochs: 25
+epochs: 10
 dataset: "CelebA"
 pretrain: True
 train: True
@@ -38,12 +38,11 @@ csv_path: "/home/nthom/Documents/simclr/outputs/"
 
 # save options
 # method_data_transformations_lr_temperature_patience_projectionDimension_hDimension
-save_name: "resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024"
+save_name: "resnet50_SimCLR_celebaDataset_SimCLRTransforms"
 
 # reload options
-model_path: "/home/nthom/Documents/simclr/checkpoints/resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024/"
-#model_file: "epoch=77-Training Loss=1.25032-resnet50_SimCLR_celebaDataset_SimCLRTransforms_0.003_0.5_0.07_128_1024.ckpt"
-model_file: "test.ckpt"
+model_path: "/home/nthom/Documents/simclr/checkpoints/"
+model_file: "resnet50_SimCLR_celebaDataset_SimCLRTransforms.ckpt"
 
 # data options
 show_batch: False

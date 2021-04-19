@@ -130,7 +130,8 @@ if __name__ == "__main__":
             {k:v for k, v in yaml_config.items() if k not in wandb.config}
         )
 
-        for k, v in yaml_config.items():
+        for k, v in wandb.config.items():
+            print(k, v)
             parser.add_argument(f"--{k}", default=v, type=type(v))
 
         args = parser.parse_args()
@@ -204,9 +205,9 @@ if __name__ == "__main__":
         checkpoint_callback = ModelCheckpoint(
             monitor='Training Loss',
             dirpath=args.model_path,
-            filename='{epoch:02d}-{Training Loss:.05f}-' + f"{args.h_dim}" + f"{args.projection_dim}" +
-                     f"{args.temperature}" + f"{args.learning_rate}",
-            save_top_k=5,
+            filename='{epoch:02d}-{Training Loss:.05f}-' + f"{args.h_dim}-" + f"{args.projection_dim}-" +
+                     f"{args.temperature}-" + f"{args.learning_rate}",
+            save_top_k=1,
             mode='min',
         )
 
@@ -215,7 +216,7 @@ if __name__ == "__main__":
             precision=16,
             callbacks=[checkpoint_callback],
             accelerator='ddp',
-            plugins=DDPPlugin(find_unused_parameters=False),
+            # plugins=DDPPlugin(find_unused_parameters=False),
             gpus=args.gpus,
             num_nodes=1,
             # limit_train_batches=0.01,
@@ -228,7 +229,7 @@ if __name__ == "__main__":
             precision=16,
             checkpoint_callback=False,
             accelerator='ddp',
-            plugins=DDPPlugin(find_unused_parameters=False),
+            # plugins=DDPPlugin(find_unused_parameters=False),
             gpus=args.gpus,
             num_nodes=1,
             # limit_train_batches=0.01,
