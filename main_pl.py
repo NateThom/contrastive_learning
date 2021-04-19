@@ -131,7 +131,6 @@ if __name__ == "__main__":
         )
 
         for k, v in wandb.config.items():
-            print(k, v)
             parser.add_argument(f"--{k}", default=v, type=type(v))
 
         args = parser.parse_args()
