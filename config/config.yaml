@@ -7,9 +7,9 @@ workers: 12
 dataset_dir: "./datasets"
 
 # train options
-seed: 128 # sacred handles automatic seeding when passed in the config
+seed: 256 # sacred handles automatic seeding when passed in the config
 batch_size: 64
-learning_rate: 0.0003
+learning_rate: 0.00003
 image_size_h: 178
 image_size_w: 218
 start_epoch: 0
@@ -25,13 +25,14 @@ reload: False
 # model options
 #resnet: "resnet18"
 resnet: "resnet50"
-h_dim: 1024
-projection_dim: 128 # "[...] to project the representation to a 128-dimensional latent space"
+h_dim: 4096
+projection_dim: 1024 # "[...] to project the representation to a 128-dimensional latent space"
 
 # loss options
 optimizer: "Adam" # or LARS (experimental)
 weight_decay: 1.0e-6 # "optimized using LARS [...] and weight decay of 10−6"
-temperature: 0.1 # see appendix B.7.: Optimal temperature under different batch sizes
+temperature: 0.05 # see appendix B.7.: Optimal temperature under different batch sizes
+amsgrad: False
 
 # test output options
 csv_path: "/home/nthom/Documents/simclr/outputs/"
@@ -42,7 +43,7 @@ save_name: "resnet50_SimCLR_celebaDataset_SimCLRTransforms"
 
 # reload options
 model_path: "/home/nthom/Documents/simclr/checkpoints/"
-model_file: "resnet50_SimCLR_celebaDataset_SimCLRTransforms.ckpt"
+model_file: "epoch=06-Training Loss=0.76878-4096-1024-0.05-3e-05.ckpt"
 
 # data options
 show_batch: False

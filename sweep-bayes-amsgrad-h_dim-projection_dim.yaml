@@ -1,0 +1,20 @@
+command:
+  - /home/nthom/anaconda3/envs/torch/bin/python
+  - main_pl.py
+program: main_pl.py
+method: bayes
+metric:
+  goal: minimize
+  name: Training Loss_epoch
+parameters:
+  h_dim:
+    values: [512, 1024, 2048, 4096]
+  projection_dim:
+    values: [64, 128, 256, 512, 1024]
+  amsgrad:
+    values: [False, True]
+  epochs:
+    value: 100
+early_terminate:
+  type: hyperband
+  min_iter: 3

@@ -73,7 +73,8 @@ class ContrastiveLearning(LightningModule):
     def configure_optimizers(self):
         scheduler = None
         if self.hparams.optimizer == "Adam":
-            optimizer = torch.optim.Adam(self.model.parameters(), lr=self.hparams.learning_rate)
+            optimizer = torch.optim.Adam(self.model.parameters(), lr=self.hparams.learning_rate,
+                                         amsgrad=self.hparams.amsgrad)
         elif self.hparams.optimizer == "LARS":
             # optimized using LARS with linear learning rate scaling
             # (i.e. LearningRate = 0.3 × BatchSize/256) and weight decay of 10−6.
